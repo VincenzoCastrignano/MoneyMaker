@@ -26,7 +26,7 @@ if __name__ == '__main__':
     # add_Act()
     # add_Bud()
     # print_Bud()
-    del_Bud()
+    # del_Bud()
     # print_Act()
     # Create_User()
     # data_json()

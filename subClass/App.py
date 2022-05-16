@@ -1,4 +1,24 @@
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
 
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Business")
+        self.setFixedSize(QSize(400, 300))
+
+        self.button = QPushButton("Clique ici!")
+        self.button.clicked.connect(self.the_button_was_clicked)
+
+        self.setCentralWidget(self.button)
+
+    def the_button_was_clicked(self):
+        self.button.setText("Good job bro.")
+        self.button.setEnabled(False)
+
+        # Also change the window title.
+        self.setWindowTitle("Mon nouveau Business")
 
 class App:
     N_User: 0

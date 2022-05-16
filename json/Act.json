@@ -1,0 +1,19 @@
+{
+    "user": {
+        "ID": 7,
+        "fname": "Cstr",
+        "name": "Vincenzo",
+        "age": 18,
+        "sex": 1,
+        "ps": "ps",
+        "pwd": "mdp",
+        "Activities": [
+            {
+                "ID": "90d16f6a-95b5-4b34-b10e-e2ea1b92e03a",
+                "name": "Tennis",
+                "price": 50.0
+            }
+        ],
+        "Budget": [500.0]
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "user": {
+        "ID": 3,
+        "fname": "robinet",
+        "name": "coule",
+        "age": 12,
+        "sex": 0,
+        "ps": "Ptite goutte",
+        "pwd": "mot de passe",
+        "activities": [],
+        "budgets": [
+            {
+                "price": 0.5,
+                "date": "Fevrier"
+            },
+            {
+                "price": 500.0,
+                "date": "Decembre"
+            }
+        ]
+    }
+}

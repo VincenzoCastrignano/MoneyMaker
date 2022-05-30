@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
 from PyQt5 import QtGui
 from random import choice
+from fonction import data_json
 from random import randint
 import sys
 
@@ -27,15 +28,20 @@ class Inscription(QWidget):
         self.form_fname.clear()
         self.form_name.clear()
         self.form_age.clear()
-        self.form_age.setValue(0)
-        self.form_age.setMaximum(50)
-        self.form_age.setMinimum(0)
+        self.form_age.setValue(20)
+        # self.form_age.setMinimum(13)
+        # self.form_age.setMaximum(99)
+
         self.form_sex.clear()
-        self.form_sex.addItem('A choisir')
-        self.form_sex.addItem('Homme')
-        self.form_sex.addItem('Femme')
-        self.form_pseudo_cstm.clear()
+        gender_list = ["A choisir", "Homme", "Femme", "Autre"]
+        self.form_sex.addItems(gender_list)
+        self.form_sex.setItemData(0, "A choisir")
+        self.form_sex.setItemData(1, 1)
+        self.form_sex.setItemData(2, 0)
+        self.form_sex.setItemData(3, 2)
+        self.form_pseudo.clear()
         self.form_pwd.clear()
+        self.button2.setEnabled(False)
 
     def set_form(self):
         form = QVBoxLayout()
@@ -61,27 +67,34 @@ class Inscription(QWidget):
         self.form_name.setObjectName("name")
         form.addWidget(self.form_name)
 
-        self.form_age = QSpinBox()
+        self.form_age = QSpinBox(self)
         self.form_age.valueChanged.connect(self.check)
+
         self.form_age.setValue(0)
-        self.form_age.setMaximum(99)
-        self.form_age.setMinimum(0)
+        self.form_age.setRange(0, 99)
+
         self.form_age.setObjectName('age')
         form.addWidget(self.form_age)
 
-        self.form_sex = QComboBox()
+
+        gender_list = ["A choisir", "Homme", "Femme", "Autre"]
+        self.form_sex = QComboBox(self)
+        self.form_sex.addItems(gender_list)
+
+        self.form_sex.setItemData(0, "A choisir")
+        self.form_sex.setItemData(1, 1)
+        self.form_sex.setItemData(2, 0)
+        self.form_sex.setItemData(3, 2)
+
         self.form_sex.currentTextChanged.connect(self.check)
-        self.form_sex.addItem('A choisir')
-        self.form_sex.addItem('Homme')
-        self.form_sex.addItem('Femme')
         self.form_sex.setObjectName('sex')
         form.addWidget(self.form_sex)
 
-        self.form_pseudo_cstm = QLineEdit()
-        self.form_pseudo_cstm.textChanged.connect(self.check)
-        self.form_pseudo_cstm.setPlaceholderText("Pseudo...")
-        self.form_pseudo_cstm.setObjectName('ps')
-        form.addWidget(self.form_pseudo_cstm)
+        self.form_pseudo = QLineEdit()
+        self.form_pseudo.textChanged.connect(self.check)
+        self.form_pseudo.setPlaceholderText("Pseudo...")
+        self.form_pseudo.setObjectName('ps')
+        form.addWidget(self.form_pseudo)
 
         self.form_pwd = QLineEdit()
         self.form_pwd.textChanged.connect(self.check)
@@ -106,10 +119,13 @@ class Inscription(QWidget):
         name = self.form_name.text()
         age = self.form_age.value()
         sex = self.form_sex.currentData()
-        ps = self.form_pseudo_cstm.text()
+        ps = self.form_pseudo.text()
         pwd = self.form_pwd.text()
-        if fname != '' and name != '' and age != 0 and sex != 'A choisir' and ps != '' and pwd != '':
-            self.button2.setEnabled(True)
+        if fname != '' and name != '' and age >= 13 and sex != 'A choisir' and ps != '' and pwd != '':
+            if pwd != '' or pwd != ' ':
+                self.button2.setEnabled(True)
+        else:
+            self.button2.setEnabled(False)
 
     def recup_data(self):
         a = []
@@ -117,7 +133,7 @@ class Inscription(QWidget):
         name = self.form_name.text()
         age = self.form_age.value()
         sex = self.form_sex.currentText()
-        ps = self.form_pseudo_cstm.text()
+        ps = self.form_pseudo.text()
         pwd = self.form_pwd.text()
         a.append(fname)
         a.append(name)
@@ -125,7 +141,6 @@ class Inscription(QWidget):
         a.append(sex)
         a.append(ps)
         a.append(pwd)
-        print(a)
         Create_User(a)
         self.clear_form()
         self.close()
@@ -141,26 +156,114 @@ class Inscription(QWidget):
             self.clear_form()
             self.close()
         else:
-            print("non")
+            print("")
 
 
 class Connexion(QWidget):
     def __init__(self):
         super().__init__()
-        layout = QVBoxLayout()
-        self.label = QLabel("Pour te connecter, il te suffit de rentrer ton ps et mdp !")
+        self.form_co()
+
+    def form_co(self):
+        form = QVBoxLayout()
+        self.form_txt = QLabel("Ecris ton pseudo Et ton mot de passe !")
+        font = self.form_txt.font()
+        font.setPointSize(20)
+        self.form_txt.setFont(font)
         self.setWindowIcon(QtGui.QIcon('icon/money.png'))
         self.setWindowTitle(window_titles[1])
-        self.setFixedSize(QSize(600, 750))
-        layout.addWidget(self.label)
-        self.setLayout(layout)
+        self.setFixedSize(QSize(250, 350))
+        form.addWidget(self.form_txt)
+        self.setLayout(form)
+        self.form_pseudo = QLineEdit()
+        self.form_pseudo.textChanged.connect(self.check)
+        self.form_pseudo.setPlaceholderText("Pseudo...")
+        self.form_pseudo.setObjectName('ps')
+        form.addWidget(self.form_pseudo)
+
+        self.form_pwd = QLineEdit()
+        self.form_pwd.textChanged.connect(self.check)
+        self.form_pwd.setEchoMode(QLineEdit.Password)
+        self.form_pwd.setPlaceholderText("Mot de passe...")
+        self.form_pwd.setObjectName('pwd')
+        form.addWidget(self.form_pwd)
+
+        self.button1 = QPushButton("Annuler")
+        self.button1.clicked.connect(self.button_clicked)
+
+        self.button2 = QPushButton("Valider")
+        self.button2.setEnabled(False)
+        self.button2.clicked.connect(self.verif_co)
+
+        form.addWidget(self.button1)
+        form.addWidget(self.button2)
+        self.setLayout(form)
+
+    def check(self):
+        ps = self.form_pseudo.text()
+        pwd = self.form_pwd.text()
+        if ps != '' and pwd != '':
+            self.button2.setEnabled(True)
+
+    def clear_form(self):
+        self.form_pseudo.clear()
+        self.form_pwd.clear()
+        self.button2.setEnabled(False)
+
+    def button_clicked(self):
+        dlg = QMessageBox(self)
+        dlg.setWindowTitle("Sécurité")
+        dlg.setText("Êtes-vous sûr ?")
+        dlg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        dlg.setIcon(QMessageBox.Question)
+        button = dlg.exec()
+        if button == QMessageBox.Yes:
+            self.clear_form()
+            self.close()
+        else:
+            print("non")
+
+    def verif_co(self):
+        self.w3 = Accueil()
+        a = data_json()
+        js_ps = a["user"]["ps"]
+        js_pwd = a["user"]["pwd"]
+        ps = self.form_pseudo.text()
+        pwd = self.form_pwd.text()
+        if js_ps == ps and js_pwd == pwd:
+            w = MainWindow()
+            w.hide()       # A SUIVRE...
+            self.close()
+
+            # w.setWindowTitle(window_titles[4])
+                    # Ouvre interface Accueil
+        else:
+            dlg = QMessageBox(self)
+            dlg.setWindowTitle("Erreur")
+            dlg.setIcon(QMessageBox.Critical)
+            dlg.setText("Mot de passe erroné")
+            dlg.setStandardButtons(QMessageBox.Ok | QMessageBox.Retry)
+            button = dlg.exec()
+            if button == QMessageBox.Ok:
+                self.clear_form()
+                self.close()
+            else:
+                self.clear_form()
+
+
+class Accueil(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowIcon(QtGui.QIcon('icon/money.png'))
+        self.setWindowTitle(window_titles[4])
+        self.setFixedSize(QSize(400, 600))
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowIcon(QtGui.QIcon('icon/money.png'))
-        self.setWindowTitle("Business")
+        self.setWindowTitle(window_titles[0])
         self.setFixedSize(QSize(400, 600))
 
         self.w1 = Inscription()
@@ -220,76 +323,6 @@ class MainWindow(QMainWindow):
 
     def onMyToolBarButtonClick(self, s):
         print("click", s)
-        # self.button = QPushButton("Clique ici!")
-        # self.button.clicked.connect(self.the_button_was_clicked)
-        # self.windowTitleChanged.connect(self.the_window_title_changed)
-        # self.setCentralWidget(self.button)
-
-        # def Clique(self, e):
-        #     if e.button() == Qt.LeftButton:
-        #         self.label.setText("Clique Gauche")
-        #     elif e.button() == Qt.MiddleButton:
-        #         self.label.setText("Clique Millieu")
-        #     elif e.button() == Qt.RightButton:
-        #         self.label.setText("Clique Droit")
-        #
-        # def mousePressEvent(self, e):
-        #     self.label.setText("mousePressEvent")
-        #
-        # def mouseReleaseEvent(self, e):
-        #     self.label.setText("mouseReleaseEvent")
-        #
-        # def mouseDoubleClickEvent(self, e):
-        #     self.label.setText("mouseDoubleClickEvent")
-
-        # layout = QVBoxLayout()
-        # layout.addWidget(self.input)
-        # layout.addWidget(self.label)
-        #
-        # container = QWidget()
-        # container.setLayout(layout)
-
-        # layout = QVBoxLayout()
-        # widgets = [
-        #     QCheckBox,
-        #     QComboBox,
-        #     QDateEdit,
-        #     QDateTimeEdit,
-        #     QDoubleSpinBox,
-        #     QFontComboBox,
-        #     QLCDNumber,
-        #     QLabel,
-        #     QLineEdit,
-        #     QProgressBar,
-        #     QPushButton,
-        #     QRadioButton,
-        #     QSlider,
-        #     QSpinBox,
-        #     QTimeEdit,
-        # ]
-        #
-        # for w in widgets:
-        #     layout.addWidget(w())
-
-        # widget = QLabel("Bienvenue")
-        # font = widget.font()
-        # font.setPointSize(30)
-        # widget.setFont(font)
-        # widget.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        # self.setCentralWidget(widget)
-        #
-        # # self.test = QLabel("Connexion", self)
-        # # font = self.test.font()
-        # # font.setPointSize(40)
-        # # self.test.setAlignment(Qt.AlignCenter)
-        #
-        # self.label_Inscription = QLabel("Inscription", self)
-        # self.label_Inscription.setStyleSheet("border: 1px solid black;")
-        # self.label_Inscription.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
-        #
-        # self.label_Connexion = QLabel("Connexion", self)
-        # self.label_Connexion.setStyleSheet("border: 1px solid black;")
-        # self.label_Connexion.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
 
     def the_button_was_clicked(self):
         print("Clique !")

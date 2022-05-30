@@ -1,12 +1,12 @@
 {
     "user": {
         "ID": 6,
-        "fname": "Castex",
-        "name": "Pascal",
-        "age": 8,
+        "fname": "Castrignano",
+        "name": "Vincenzo",
+        "age": 18,
         "sex": 1,
-        "ps": "Le Cast",
-        "pwd": "Mot de passe",
+        "ps": "te",
+        "pwd": "te",
         "activities": [],
         "budgets": []
     }

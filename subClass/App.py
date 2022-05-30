@@ -6,6 +6,8 @@ from random import choice
 from random import randint
 import sys
 
+from subClass.User import Create_User
+
 window_titles = [
     "Base",
     "Connexion",
@@ -19,56 +21,116 @@ window_titles = [
 class Inscription(QWidget):
     def __init__(self):
         super().__init__()
+        self.set_form()
+
+    def clear_form(self):
+        self.form_fname.clear()
+        self.form_name.clear()
+        self.form_age.clear()
+        self.form_age.setValue(0)
+        self.form_age.setMaximum(50)
+        self.form_age.setMinimum(0)
+        self.form_sex.clear()
+        self.form_sex.addItem('A choisir')
+        self.form_sex.addItem('Homme')
+        self.form_sex.addItem('Femme')
+        self.form_pseudo.clear()
+        self.form_pwd.clear()
+
+    def set_form(self):
         form = QVBoxLayout()
         self.form_txt = QLabel("Inscription !")
         font = self.form_txt.font()
         font.setPointSize(30)
         self.form_txt.setFont(font)
-
         self.setWindowIcon(QtGui.QIcon('icon/money.png'))
         self.setWindowTitle(window_titles[2])
         self.setFixedSize(QSize(250, 350))
         form.addWidget(self.form_txt)
         self.setLayout(form)
 
-        form_name = QLineEdit()
-        form_name.setPlaceholderText("Prénom...")
-        form.addWidget(form_name)
-        form_f_name = QLineEdit()
-        form_f_name.setPlaceholderText("Nom de famille...")
-        form.addWidget(form_f_name)
-        form_age = QSpinBox()
-        form.addWidget(form_age)
-        form_sex_2 = QComboBox()
-        form_sex_2.addItem('A choisir')
-        form_sex_2.addItem('Homme')
-        form_sex_2.addItem('Femme')
+        self.form_fname = QLineEdit()
+        self.form_fname.textChanged.connect(self.check)
+        self.form_fname.setPlaceholderText("Nom de famille...")
+        self.form_fname.setObjectName("fname")
+        form.addWidget(self.form_fname)
 
-        form.addWidget(form_sex_2)
-        form_pseudo = QLineEdit()
-        form_pseudo.setPlaceholderText("Pseudo...")
-        form.addWidget(form_pseudo)
-        form_pwd = QLineEdit()
-        form_pwd.setPlaceholderText("Mot de passe...")
-        form.addWidget(form_pwd)
+        self.form_name = QLineEdit()
+        self.form_name.textChanged.connect(self.check)
+        self.form_name.setPlaceholderText("Prénom...")
+        self.form_name.setObjectName("name")
+        form.addWidget(self.form_name)
 
+        self.form_age = QSpinBox()
+        self.form_age.valueChanged.connect(self.check)
+        self.form_age.setValue(0)
+        self.form_age.setMaximum(99)
+        self.form_age.setMinimum(0)
+        self.form_age.setObjectName('age')
+        form.addWidget(self.form_age)
 
+        self.form_sex = QComboBox()
+        self.form_sex.currentTextChanged.connect(self.check)
+        self.form_sex.addItem('A choisir')
+        self.form_sex.addItem('Homme')
+        self.form_sex.addItem('Femme')
+        self.form_sex.setObjectName('sex')
+        form.addWidget(self.form_sex)
 
+        self.form_pseudo = QLineEdit()
+        self.form_pseudo.textChanged.connect(self.check)
+        self.form_pseudo.setPlaceholderText("Pseudo...")
+        self.form_pseudo.setObjectName('ps')
+        form.addWidget(self.form_pseudo)
 
-        button1 = QPushButton("Annuler")
-        button1.clicked.connect(self.button_clicked)
-        # form.addWidget(button1)
+        self.form_pwd = QLineEdit()
+        self.form_pwd.textChanged.connect(self.check)
+        self.form_pwd.setEchoMode(QLineEdit.Password)
+        self.form_pwd.setPlaceholderText("Mot de passe...")
+        self.form_pwd.setObjectName('pwd')
+        form.addWidget(self.form_pwd)
 
-        button2 = QPushButton("Valider")
-        button2.clicked.connect(self.button_clicked)
-        # form.addWidget(button2)
+        self.button1 = QPushButton("Annuler")
+        self.button1.clicked.connect(self.button_clicked)
 
-        form.addWidget(button1)
-        form.addWidget(button2)
+        self.button2 = QPushButton("Valider")
+        self.button2.setEnabled(False)
+        self.button2.clicked.connect(self.recup_data)
+
+        form.addWidget(self.button1)
+        form.addWidget(self.button2)
         self.setLayout(form)
 
+    def check(self):
+        fname = self.form_fname.text()
+        name = self.form_name.text()
+        age = self.form_age.value()
+        sex = str(self.form_sex.currentText())
+        ps = self.form_pseudo.text()
+        pwd = self.form_pwd.text()
+        if fname != '' and name != '' and age != 0 and sex != 'A choisir' and ps != '' and pwd != '':
+            self.button2.setEnabled(True)
 
-    def button_clicked(self, s):
+    def recup_data(self):
+        a = []
+        fname = self.form_fname.text()
+        name = self.form_name.text()
+        age = self.form_age.value()
+        sex = self.form_sex.currentText()
+        ps = self.form_pseudo.text()
+        pwd = self.form_pwd.text()
+        a.append(fname)
+        a.append(name)
+        a.append(age)
+        a.append(sex)
+        a.append(ps)
+        a.append(pwd)
+        print(a)
+        Create_User(a)
+        self.clear_form()
+        self.close()
+
+    def button_clicked(self):
         dlg = QMessageBox(self)
         dlg.setWindowTitle("Sécurité")
         dlg.setText("Êtes-vous sûr ?")
@@ -76,6 +138,7 @@ class Inscription(QWidget):
         dlg.setIcon(QMessageBox.Question)
         button = dlg.exec()
         if button == QMessageBox.Yes:
+            self.clear_form()
             self.close()
         else:
             print("non")
@@ -122,16 +185,16 @@ class MainWindow(QMainWindow):
 
         toolbar = QToolBar("My main toolbar")
         toolbar.setIconSize(QSize(16, 16))
-        self.addToolBar(toolbar)
+        # self.addToolBar(toolbar)
 
-        button_action = QAction(QIcon("icon/money.png"), "&Your button", self)
+        button_action = QAction(QIcon("icon/money.png"), "&Profil", self)
         button_action.setStatusTip("This is your button")
         button_action.setCheckable(True)
         toolbar.addAction(button_action)
 
         toolbar.addSeparator()
 
-        button_action2 = QAction(QIcon("icon/money.png"), "Your &button2", self)
+        button_action2 = QAction(QIcon("icon/money.png"), "&A suivre...", self)
         button_action2.setStatusTip("This is your button2")
         button_action2.triggered.connect(self.onMyToolBarButtonClick)
         button_action2.setCheckable(True)
@@ -144,7 +207,7 @@ class MainWindow(QMainWindow):
 
         menu = self.menuBar()
 
-        file_menu = menu.addMenu("&Option")
+        file_menu = menu.addMenu("&Raccourci")
         file_menu.addAction(button_action)
         file_menu.addSeparator()
         file_menu.addAction(button_action2)

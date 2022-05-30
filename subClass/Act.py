@@ -1,6 +1,5 @@
 import json
 import uuid
-from fonction import *
 
 
 class Act:

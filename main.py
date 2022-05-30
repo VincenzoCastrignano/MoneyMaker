@@ -1,8 +1,7 @@
-from subClass.App import *
-from subClass.User import Create_User
 from subClass.User import *
 from subClass.Budget import *
 from fonction import *
+from subClass.App import *
 
 import sys
 
@@ -28,11 +27,6 @@ if __name__ == '__main__':
 
 # Planning du cours :
 
-
-# Continuer et finir les Act (créer, modif, supprm, list) (1h30)
-# Commencer à gérer une intéraction fluide sans erreur (3-4h)
-
-# --> Initialiser un json complet avec activités (vide), et budget (vide) Fonction Create_User()
-# --> Créer la fonction Add_Act() pour ajouter des act au json
-# --> Créer la fonction Add_Budget() pour ajouter des budgets au json
-# --> Stocker toutes ces données dans des variables locales et non au json
+# Régler le code erreur (ligne 109 fonction check) (Pas de temps)
+# Créer fonction pour activer le boutton de l'inscription (45min)
+# Créer une fonction pour la connexion (1h30)

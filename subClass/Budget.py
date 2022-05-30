@@ -1,5 +1,5 @@
 import json
-from fonction import *
+from fonction import edit_json
 
 
 # //////
@@ -13,6 +13,7 @@ from fonction import *
 # D'abord seulement pour les mois
 #
 # //////
+from subClass.Act import edit_json1, data_json1
 
 
 class Budget:

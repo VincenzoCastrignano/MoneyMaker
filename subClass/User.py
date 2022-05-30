@@ -1,6 +1,5 @@
-import json
 import random
-from fonction import *
+from fonction import create_json
 
 
 class User:
@@ -39,11 +38,35 @@ class User:
         return dictionary
 
 
-def Create_User():
+def Create_User(data):
+    ID = random.randint(0, 9)
+    fname = data[0]
+    name = data[1]
+    age = data[2]
+    sex = data[3]
+    if sex == 'Homme':
+        sex = 1
+    if sex == 'Femme':
+        sex = 0
+    ps = data[4]
+    pwd = data[5]
+    temp_ja = User(ID, fname, name, age, sex, ps, pwd)
+    ja = temp_ja.get_User()
+    print(ja)
+    create_json(ja)
+    return ja
+
+
+def Del_User():  # Pas fonctionnel
+    create_json(0)
+
+
+def Create_User_bis():
     ID = random.randint(0, 9)
     fname = str(input("Quel est ton Nom de Famille ?\n"))
     name = str(input("Quel est ton Prénom ?\n"))
     age = int(input("Quel est ton age ?\n"))
+    sex = ''
     b = True
     while b:
         sex = input("Quel est ton sexe ?\nH ou F\n")
@@ -62,7 +85,3 @@ def Create_User():
     print(ja)
     create_json(ja)
     return ja
-
-
-def Del_User(): # Pas fonctionnel
-    create_json(0)

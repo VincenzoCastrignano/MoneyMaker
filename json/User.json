@@ -1,22 +1,13 @@
 {
     "user": {
-        "ID": 15,
-        "fname": "robinet",
-        "name": "coule",
-        "age": 12,
-        "sex": 0,
-        "ps": "Ptite goutte",
-        "pwd": "mot de passe",
+        "ID": 6,
+        "fname": "Castex",
+        "name": "Pascal",
+        "age": 8,
+        "sex": 1,
+        "ps": "Le Cast",
+        "pwd": "Mot de passe",
         "activities": [],
-        "budgets": [
-            {
-                "price": 0.5,
-                "date": "Fevrier"
-            },
-            {
-                "price": 500.0,
-                "date": "Decembre"
-            }
-        ]
+        "budgets": []
     }
 }

@@ -1,7 +1,6 @@
 import json
-import os
 from subClass.User import *
-from subClass.Act import *
+from subClass.Act import add_Act
 
 
 def create_json(func, path='json/User.json'):
@@ -39,7 +38,7 @@ def start():
     if c == "1":
         inter_profil()
     if c == "2":
-        Create_Act()
+        add_Act()
 
 
 def inter_profil():

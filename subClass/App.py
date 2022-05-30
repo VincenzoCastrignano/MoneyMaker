@@ -34,7 +34,7 @@ class Inscription(QWidget):
         self.form_sex.addItem('A choisir')
         self.form_sex.addItem('Homme')
         self.form_sex.addItem('Femme')
-        self.form_pseudo.clear()
+        self.form_pseudo_cstm.clear()
         self.form_pwd.clear()
 
     def set_form(self):
@@ -77,11 +77,11 @@ class Inscription(QWidget):
         self.form_sex.setObjectName('sex')
         form.addWidget(self.form_sex)
 
-        self.form_pseudo = QLineEdit()
-        self.form_pseudo.textChanged.connect(self.check)
-        self.form_pseudo.setPlaceholderText("Pseudo...")
-        self.form_pseudo.setObjectName('ps')
-        form.addWidget(self.form_pseudo)
+        self.form_pseudo_cstm = QLineEdit()
+        self.form_pseudo_cstm.textChanged.connect(self.check)
+        self.form_pseudo_cstm.setPlaceholderText("Pseudo...")
+        self.form_pseudo_cstm.setObjectName('ps')
+        form.addWidget(self.form_pseudo_cstm)
 
         self.form_pwd = QLineEdit()
         self.form_pwd.textChanged.connect(self.check)
@@ -105,8 +105,8 @@ class Inscription(QWidget):
         fname = self.form_fname.text()
         name = self.form_name.text()
         age = self.form_age.value()
-        sex = str(self.form_sex.currentText())
-        ps = self.form_pseudo.text()
+        sex = self.form_sex.currentData()
+        ps = self.form_pseudo_cstm.text()
         pwd = self.form_pwd.text()
         if fname != '' and name != '' and age != 0 and sex != 'A choisir' and ps != '' and pwd != '':
             self.button2.setEnabled(True)
@@ -117,7 +117,7 @@ class Inscription(QWidget):
         name = self.form_name.text()
         age = self.form_age.value()
         sex = self.form_sex.currentText()
-        ps = self.form_pseudo.text()
+        ps = self.form_pseudo_cstm.text()
         pwd = self.form_pwd.text()
         a.append(fname)
         a.append(name)

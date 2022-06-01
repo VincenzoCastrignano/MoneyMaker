@@ -8,9 +8,7 @@ import sys
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-
-    window = MainWindow()
-    window.show()
+    loader()
 
     app.exec()
     # edit_json("ID", 15)
@@ -27,6 +25,8 @@ if __name__ == '__main__':
 
 # Planning du cours :
 
-# Régler le code erreur (ligne 109 fonction check) (Pas de temps)
-# Créer fonction pour activer le boutton de l'inscription (45min)
-# Créer une fonction pour la connexion (1h30)
+# Faire un schéma pour chaque interface (30-45min)
+# Appliquer sur le code (45min-1h)
+# Faire interface une fois connecté (1h)
+# Appliquer les fonc pour ajouter act et Budget (30-45min)
+# Créer fonction pour vérifier si le Budget est tjrs vérifié (?min)

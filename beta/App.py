@@ -19,31 +19,19 @@ window_titles = [
 ]
 
 
-def loader(a=0):
-    match a:
-        case 1:
-            print("1")
-            Connexion().form_co()
-        case 2:
-            print("2")
-            Inscription().set_form()
-        case 3:
-            print("3")
-            Accueil().defaultW()
-        case _:
-            print("default")
-            FirstW().Create_InsCo()
-
-
 class Inscription(QWidget):
     def __init__(self):
         super().__init__()
+        self.set_form()
 
     def clear_form(self):
         self.form_fname.clear()
         self.form_name.clear()
         self.form_age.clear()
         self.form_age.setValue(20)
+        # self.form_age.setMinimum(13)
+        # self.form_age.setMaximum(99)
+
         self.form_sex.clear()
         gender_list = ["A choisir", "Homme", "Femme", "Autre"]
         self.form_sex.addItems(gender_list)
@@ -56,7 +44,6 @@ class Inscription(QWidget):
         self.button2.setEnabled(False)
 
     def set_form(self):
-        self.show()
         form = QVBoxLayout()
         self.form_txt = QLabel("Inscription !")
         font = self.form_txt.font()
@@ -88,6 +75,7 @@ class Inscription(QWidget):
 
         self.form_age.setObjectName('age')
         form.addWidget(self.form_age)
+
 
         gender_list = ["A choisir", "Homme", "Femme", "Autre"]
         self.form_sex = QComboBox(self)
@@ -136,7 +124,6 @@ class Inscription(QWidget):
         if fname != '' and name != '' and age >= 13 and sex != 'A choisir' and ps != '' and pwd != '':
             if pwd != '' or pwd != ' ':
                 self.button2.setEnabled(True)
-                self.button2.setCheckable(False)
         else:
             self.button2.setEnabled(False)
 
@@ -156,7 +143,6 @@ class Inscription(QWidget):
         a.append(pwd)
         Create_User(a)
         self.clear_form()
-        loader(3)
         self.close()
 
     def button_clicked(self):
@@ -169,14 +155,16 @@ class Inscription(QWidget):
         if button == QMessageBox.Yes:
             self.clear_form()
             self.close()
+        else:
+            print("")
 
 
 class Connexion(QWidget):
     def __init__(self):
         super().__init__()
+        self.form_co()
 
     def form_co(self):
-        self.show()
         form = QVBoxLayout()
         self.form_txt = QLabel("Ecris ton pseudo Et ton mot de passe !")
         font = self.form_txt.font()
@@ -204,7 +192,7 @@ class Connexion(QWidget):
         self.button1.clicked.connect(self.button_clicked)
 
         self.button2 = QPushButton("Valider")
-        self.button2.setEnabled(True)
+        self.button2.setEnabled(False)
         self.button2.clicked.connect(self.verif_co)
 
         form.addWidget(self.button1)
@@ -232,6 +220,8 @@ class Connexion(QWidget):
         if button == QMessageBox.Yes:
             self.clear_form()
             self.close()
+        else:
+            print("non")
 
     def verif_co(self):
         self.w3 = Accueil()
@@ -241,8 +231,12 @@ class Connexion(QWidget):
         ps = self.form_pseudo.text()
         pwd = self.form_pwd.text()
         if js_ps == ps and js_pwd == pwd:
+            w = MainWindow()
+            w.hide()       # A SUIVRE...
             self.close()
-            loader(3)
+
+            # w.setWindowTitle(window_titles[4])
+                    # Ouvre interface Accueil
         else:
             dlg = QMessageBox(self)
             dlg.setWindowTitle("Erreur")
@@ -260,19 +254,14 @@ class Connexion(QWidget):
 class Accueil(QWidget):
     def __init__(self):
         super().__init__()
-
-    def defaultW(self):
         self.setWindowIcon(QtGui.QIcon('icon/money.png'))
         self.setWindowTitle(window_titles[4])
         self.setFixedSize(QSize(400, 600))
 
 
-class FirstW(QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
-    def Create_InsCo(self):
-        self.show()
         self.setWindowIcon(QtGui.QIcon('icon/money.png'))
         self.setWindowTitle(window_titles[0])
         self.setFixedSize(QSize(400, 600))
@@ -283,13 +272,13 @@ class FirstW(QMainWindow):
         a = QVBoxLayout()
         button1 = QPushButton("Inscription")
         button1.clicked.connect(
-            lambda checked: self.toggle_w(self.w1.set_form())
+            lambda checked: self.toggle_w(self.w1)
         )
         a.addWidget(button1)
 
         button2 = QPushButton("Connexion")
         button2.clicked.connect(
-            lambda checked: self.toggle_w(self.w2.form_co())
+            lambda checked: self.toggle_w(self.w2)
         )
         a.addWidget(button2)
 
@@ -310,6 +299,7 @@ class FirstW(QMainWindow):
 
         button_action2 = QAction(QIcon("icon/money.png"), "&A suivre...", self)
         button_action2.setStatusTip("This is your button2")
+        button_action2.triggered.connect(self.onMyToolBarButtonClick)
         button_action2.setCheckable(True)
         toolbar.addAction(button_action2)
 
@@ -346,28 +336,3 @@ class FirstW(QMainWindow):
         print("Paramètre de fenêtre switch : %s" % window_title)
         if window_title == 'Erreur':
             self.button.setDisabled(True)
-
-
-class App:
-    N_User: 0
-
-    def __init__(self, N_User):
-        self.N_User = N_User
-
-    def add_user(self):
-        first_name = self.fname.get()
-        name = self.surname.get()
-        ps = self.ps.get()
-        pwd = self.pwd.get()
-        User = self.N_User
-        User += 1
-        return {
-            'fname': first_name,
-            'name': name,
-            'ps': ps,
-            'pwd': pwd,
-        }
-
-    def Limit_User(self, N_User):
-        if N_User > 10:
-            print("Trop de User !")

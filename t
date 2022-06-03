@@ -75,3 +75,38 @@ class MainWindow(QMainWindow):
         print("Paramètre de fenêtre switch : %s" % window_title)
         if window_title == 'Erreur':
             self.button.setDisabled(True)
+
+
+form = QVBoxLayout()
+        self.form_txt = QLabel("Ecris ton pseudo Et ton mot de passe !")
+        font = self.form_txt.font()
+        font.setPointSize(20)
+        self.form_txt.setFont(font)
+        self.setWindowIcon(QtGui.QIcon('icon/money.png'))
+        self.setWindowTitle(window_titles[1])
+        self.setFixedSize(QSize(250, 350))
+        form.addWidget(self.form_txt)
+        self.setLayout(form)
+        self.form_pseudo = QLineEdit()
+        self.form_pseudo.textChanged.connect(self.check)
+        self.form_pseudo.setPlaceholderText("Pseudo...")
+        self.form_pseudo.setObjectName('ps')
+        form.addWidget(self.form_pseudo)
+
+        self.form_pwd = QLineEdit()
+        self.form_pwd.textChanged.connect(self.check)
+        self.form_pwd.setEchoMode(QLineEdit.Password)
+        self.form_pwd.setPlaceholderText("Mot de passe...")
+        self.form_pwd.setObjectName('pwd')
+        form.addWidget(self.form_pwd)
+
+        self.button1 = QPushButton("Annuler")
+        self.button1.clicked.connect(self.button_clicked)
+
+        self.button2 = QPushButton("Valider")
+        self.button2.setEnabled(False)
+        self.button2.clicked.connect(self.verif_co)
+
+        form.addWidget(self.button1)
+        form.addWidget(self.button2)
+        self.setLayout(form)

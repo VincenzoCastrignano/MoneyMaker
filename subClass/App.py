@@ -20,24 +20,21 @@ window_titles = [
 
 
 def loader(a=0):
+    Home = Accueil()
+    Fir = FirstW()
     match a:
         case 1:
             print("1")
-            Connexion().form_co()
-        case 2:
-            print("2")
-            Inscription().set_form()
-        case 3:
-            print("3")
-            Accueil().defaultW()
+            Home
         case _:
             print("default")
-            FirstW().Create_InsCo()
+            Fir.Create_InsCo()
 
 
 class Inscription(QWidget):
     def __init__(self):
         super().__init__()
+        self.set_form()
 
     def clear_form(self):
         self.form_fname.clear()
@@ -56,15 +53,15 @@ class Inscription(QWidget):
         self.button2.setEnabled(False)
 
     def set_form(self):
-        self.show()
+        self.setWindowIcon(QtGui.QIcon('icon/money.png'))
+        self.setWindowTitle(window_titles[2])
+        self.setFixedSize(QSize(250, 350))
         form = QVBoxLayout()
         self.form_txt = QLabel("Inscription !")
         font = self.form_txt.font()
         font.setPointSize(30)
         self.form_txt.setFont(font)
-        self.setWindowIcon(QtGui.QIcon('icon/money.png'))
-        self.setWindowTitle(window_titles[2])
-        self.setFixedSize(QSize(250, 350))
+
         form.addWidget(self.form_txt)
         self.setLayout(form)
 
@@ -141,6 +138,7 @@ class Inscription(QWidget):
             self.button2.setEnabled(False)
 
     def recup_data(self):
+        self.w3 = Accueil()
         a = []
         fname = self.form_fname.text()
         name = self.form_name.text()
@@ -156,7 +154,7 @@ class Inscription(QWidget):
         a.append(pwd)
         Create_User(a)
         self.clear_form()
-        loader(3)
+        loader(1)
         self.close()
 
     def button_clicked(self):
@@ -169,14 +167,15 @@ class Inscription(QWidget):
         if button == QMessageBox.Yes:
             self.clear_form()
             self.close()
+            FirstW().Create_InsCo()
 
 
 class Connexion(QWidget):
     def __init__(self):
         super().__init__()
+        self.form_co()
 
     def form_co(self):
-        self.show()
         form = QVBoxLayout()
         self.form_txt = QLabel("Ecris ton pseudo Et ton mot de passe !")
         font = self.form_txt.font()
@@ -204,7 +203,7 @@ class Connexion(QWidget):
         self.button1.clicked.connect(self.button_clicked)
 
         self.button2 = QPushButton("Valider")
-        self.button2.setEnabled(True)
+        self.button2.setEnabled(False)
         self.button2.clicked.connect(self.verif_co)
 
         form.addWidget(self.button1)
@@ -232,6 +231,7 @@ class Connexion(QWidget):
         if button == QMessageBox.Yes:
             self.clear_form()
             self.close()
+            FirstW().Create_InsCo()
 
     def verif_co(self):
         self.w3 = Accueil()
@@ -241,30 +241,67 @@ class Connexion(QWidget):
         ps = self.form_pseudo.text()
         pwd = self.form_pwd.text()
         if js_ps == ps and js_pwd == pwd:
+            loader(1)
             self.close()
-            loader(3)
         else:
             dlg = QMessageBox(self)
             dlg.setWindowTitle("Erreur")
             dlg.setIcon(QMessageBox.Critical)
             dlg.setText("Mot de passe erroné")
-            dlg.setStandardButtons(QMessageBox.Ok | QMessageBox.Retry)
+            dlg.setStandardButtons(QMessageBox.Ok)
             button = dlg.exec()
             if button == QMessageBox.Ok:
+                a = self.form_pseudo.text()
                 self.clear_form()
-                self.close()
-            else:
-                self.clear_form()
+                self.form_pseudo.setText(a)
 
 
 class Accueil(QWidget):
     def __init__(self):
         super().__init__()
+        self.defaultW()
+
 
     def defaultW(self):
+        self.show()
         self.setWindowIcon(QtGui.QIcon('icon/money.png'))
         self.setWindowTitle(window_titles[4])
         self.setFixedSize(QSize(400, 600))
+        data = data_json()
+        data_budget = data['user']['budgets']
+        data_act = data['user']['activities']
+        Budget = QVBoxLayout()
+        self.txt_welcome = QLabel("Bienvenue !")
+        font = self.txt_welcome.font()
+        font.setPointSize(20)
+        Budget.addWidget(self.txt_welcome)
+        if not data_budget:
+            a = "Vous n'avez aucun Budget"
+        else:
+            i = 0
+            liste = []
+            for b in data_budget:
+                i = i + 1
+                liste.append(b)
+            a = b['date'] # +"data['user']['budgets']['date']"
+            print(b['price'])
+        self.button_bu = QPushButton(a)
+        Budget.addWidget(self.button_bu)
+
+        if not data_act:
+            c = "Vous n'avez aucune activité"
+        else:
+            i = 0
+            liste = []
+            for b in data_act:
+                i = i + 1
+                liste.append(b)
+            c = b['price'] # +"data['user']['budgets']['date']"
+            print(b['price'])
+        self.button_act = QPushButton(str(c))
+        Budget.addWidget(self.button_act)
+        self.setLayout(Budget)
+
 
 
 class FirstW(QMainWindow):
@@ -283,13 +320,13 @@ class FirstW(QMainWindow):
         a = QVBoxLayout()
         button1 = QPushButton("Inscription")
         button1.clicked.connect(
-            lambda checked: self.toggle_w(self.w1.set_form())
+            lambda checked: self.toggle_w(self.w1)
         )
         a.addWidget(button1)
 
         button2 = QPushButton("Connexion")
         button2.clicked.connect(
-            lambda checked: self.toggle_w(self.w2.form_co())
+            lambda checked: self.toggle_w(self.w2)
         )
         a.addWidget(button2)
 
@@ -326,10 +363,8 @@ class FirstW(QMainWindow):
         file_menu.addAction(button_action2)
 
     def toggle_w(self, window):
-        if window.isVisible():
-            window.hide()
-        else:
-            window.show()
+        self.hide()
+        window.show()
 
     def onMyToolBarButtonClick(self, s):
         print("click", s)

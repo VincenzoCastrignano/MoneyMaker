@@ -25,8 +25,7 @@ if __name__ == '__main__':
 
 # Planning du cours :
 
-# Faire un schéma pour chaque interface (30-45min)
-# Appliquer sur le code (45min-1h)
+# Appliquer sur le schéma sur le code (45min-1h)
 # Faire interface une fois connecté (1h)
 # Appliquer les fonc pour ajouter act et Budget (30-45min)
 # Créer fonction pour vérifier si le Budget est tjrs vérifié (?min)

@@ -1,3 +1,5 @@
+import time
+
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
@@ -138,7 +140,7 @@ class Inscription(QWidget):
             self.button2.setEnabled(False)
 
     def recup_data(self):
-        self.w3 = Accueil()
+        self.w1 = Connexion()
         a = []
         fname = self.form_fname.text()
         name = self.form_name.text()
@@ -154,8 +156,8 @@ class Inscription(QWidget):
         a.append(pwd)
         Create_User(a)
         self.clear_form()
-        loader(1)
         self.close()
+        self.w1.show()
 
     def button_clicked(self):
         dlg = QMessageBox(self)
@@ -177,13 +179,13 @@ class Connexion(QWidget):
 
     def form_co(self):
         form = QVBoxLayout()
-        self.form_txt = QLabel("Ecris ton pseudo Et ton mot de passe !")
+        self.form_txt = QLabel("Ecris ton pseudo ")
         font = self.form_txt.font()
         font.setPointSize(20)
         self.form_txt.setFont(font)
         self.setWindowIcon(QtGui.QIcon('icon/money.png'))
         self.setWindowTitle(window_titles[1])
-        self.setFixedSize(QSize(250, 350))
+        self.setFixedSize(QSize(250, 300))
         form.addWidget(self.form_txt)
         self.setLayout(form)
         self.form_pseudo = QLineEdit()
@@ -261,20 +263,16 @@ class Accueil(QWidget):
         super().__init__()
         self.defaultW()
 
-
     def defaultW(self):
         self.show()
         self.setWindowIcon(QtGui.QIcon('icon/money.png'))
         self.setWindowTitle(window_titles[4])
-        self.setFixedSize(QSize(400, 600))
+        self.setFixedSize(QSize(400, 500))
         data = data_json()
+        print("ce data : ", data)
         data_budget = data['user']['budgets']
         data_act = data['user']['activities']
-        Budget = QVBoxLayout()
-        self.txt_welcome = QLabel("Bienvenue !")
-        font = self.txt_welcome.font()
-        font.setPointSize(20)
-        Budget.addWidget(self.txt_welcome)
+        Budget = QHBoxLayout()
         if not data_budget:
             a = "Vous n'avez aucun Budget"
         else:
@@ -284,8 +282,8 @@ class Accueil(QWidget):
                 i = i + 1
                 liste.append(b)
             a = b['date'] # +"data['user']['budgets']['date']"
-            print(b['price'])
         self.button_bu = QPushButton(a)
+        self.button_bu.setMinimumWidth(40)
         Budget.addWidget(self.button_bu)
 
         if not data_act:

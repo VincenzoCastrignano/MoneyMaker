@@ -1,12 +1,12 @@
 {
     "user": {
-        "ID": 9,
-        "fname": "Castrignano",
-        "name": "Vincenzo",
+        "ID": 3,
+        "fname": "t",
+        "name": "t",
         "age": 18,
         "sex": 1,
-        "ps": "Slayzen",
-        "pwd": "mdp",
+        "ps": "t",
+        "pwd": "t",
         "activities": [],
         "budgets": []
     }

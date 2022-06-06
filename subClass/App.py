@@ -6,6 +6,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5 import QtGui
 from random import choice
 from fonction import data_json
+from subClass.Act import add_Act
 from random import randint
 import sys
 
@@ -237,15 +238,18 @@ class Connexion(QWidget):
 
     def verif_co(self):
         self.w3 = Accueil()
+        self.w2 = FirstW().Create_InsCo()
         a = data_json()
         js_ps = a["user"]["ps"]
         js_pwd = a["user"]["pwd"]
         ps = self.form_pseudo.text()
         pwd = self.form_pwd.text()
         if js_ps == ps and js_pwd == pwd:
-            loader(1)
             self.close()
+            FirstW().close()
+            loader(1)
         else:
+            FirstW().close()
             dlg = QMessageBox(self)
             dlg.setWindowTitle("Erreur")
             dlg.setIcon(QMessageBox.Critical)
@@ -296,11 +300,23 @@ class Accueil(QWidget):
                 liste.append(b)
             c = b['price'] # +"data['user']['budgets']['date']"
             print(b['price'])
+        self.button2 = QPushButton("Ajouter une Activité")
+        self.button2.setEnabled(True)
+        self.button2.clicked.connect(self.add_act)
+        Budget.addWidget(self.button2)
         self.button_act = QPushButton(str(c))
         Budget.addWidget(self.button_act)
         self.setLayout(Budget)
 
+    def add_act(self):
+        self.w1 = Act_W()
 
+
+class Act_W(QWidget):
+    def __init__(self):
+        super(Act_W, self).__init__()
+        self.show()
+        self.setWindowTitle("test")
 
 class FirstW(QMainWindow):
     def __init__(self):
@@ -363,23 +379,6 @@ class FirstW(QMainWindow):
     def toggle_w(self, window):
         self.hide()
         window.show()
-
-    def onMyToolBarButtonClick(self, s):
-        print("click", s)
-
-    def the_button_was_clicked(self):
-        print("Clique !")
-        new_window_title = choice(window_titles)
-        print("Paramètre du titre : %s" % new_window_title)
-
-        # Also change the window title.
-        self.setWindowTitle(new_window_title)
-
-    def the_window_title_changed(self, window_title):
-        print("Paramètre de fenêtre switch : %s" % window_title)
-        if window_title == 'Erreur':
-            self.button.setDisabled(True)
-
 
 class App:
     N_User: 0

@@ -28,8 +28,30 @@ class Act:
             'frequency': self.frequency,
         }
 
-
 def add_Act():
+    ID = str(uuid.uuid4())
+    name = str(input("Quel est le nom de l'activité ?\n"))
+    frequency_m = input("\nA quel type de fréquence veux-tu assigner à cette activité ? (J, S, M, A)\n")
+    if frequency_m == "J":
+        a = "jour"
+    elif frequency_m == "S":
+        a = "semaine"
+    elif frequency_m == "M":
+        a = "mois"
+    elif frequency_m == "A":
+        a = "an"
+    frequency_time = str(input("\nCombien de fois fais-tu cette activité par " + a + " ?\n"))
+    price = float(input("\nEt pour finir, maintenant combien coûte ton activité ?\n"))
+    print("\nTrès bien ! Pour résumer tu as sauvegardé ceci :\n", name, " ", price, "€ ", frequency_time, "/", a)
+    number = frequency_time
+    frequency = a
+    temp_ja = Act(ID, name, price, number, frequency)
+    ja = temp_ja.get_Act()
+    print(ja)
+    edit_json1("activities", ja)
+    return ja
+
+def add_Act_bis():
     ID = str(uuid.uuid4())
     name = str(input("Quel est le nom de l'activité ?\n"))
     frequency_m = input("\nA quel type de fréquence veux-tu assigner à cette activité ? (J, S, M, A)\n")

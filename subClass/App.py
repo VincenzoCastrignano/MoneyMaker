@@ -237,8 +237,7 @@ class Connexion(QWidget):
             FirstW().Create_InsCo()
 
     def verif_co(self):
-        self.w3 = Accueil()
-        self.w2 = FirstW().Create_InsCo()
+        # self.w2 = FirstW().Create_InsCo()
         a = data_json()
         js_ps = a["user"]["ps"]
         js_pwd = a["user"]["pwd"]
@@ -247,9 +246,10 @@ class Connexion(QWidget):
         if js_ps == ps and js_pwd == pwd:
             self.close()
             FirstW().close()
+            self.w3 = Accueil()
             loader(1)
         else:
-            FirstW().close()
+            print("test")
             dlg = QMessageBox(self)
             dlg.setWindowTitle("Erreur")
             dlg.setIcon(QMessageBox.Critical)
@@ -269,6 +269,7 @@ class Accueil(QWidget):
 
     def defaultW(self):
         self.show()
+        FirstW().MenuBar()
         self.setWindowIcon(QtGui.QIcon('icon/money.png'))
         self.setWindowTitle(window_titles[4])
         self.setFixedSize(QSize(400, 500))
@@ -285,7 +286,7 @@ class Accueil(QWidget):
             for b in data_budget:
                 i = i + 1
                 liste.append(b)
-            a = b['date'] # +"data['user']['budgets']['date']"
+            a = b['date']  # +"data['user']['budgets']['date']"
         self.button_bu = QPushButton(a)
         self.button_bu.setMinimumWidth(40)
         Budget.addWidget(self.button_bu)
@@ -298,7 +299,7 @@ class Accueil(QWidget):
             for b in data_act:
                 i = i + 1
                 liste.append(b)
-            c = b['price'] # +"data['user']['budgets']['date']"
+            c = b['price']  # +"data['user']['budgets']['date']"
             print(b['price'])
         self.button2 = QPushButton("Ajouter une Activité")
         self.button2.setEnabled(True)
@@ -309,18 +310,48 @@ class Accueil(QWidget):
         self.setLayout(Budget)
 
     def add_act(self):
+        self.close()
         self.w1 = Act_W()
+
+
+    def disconnect(self):
+        self.close()
+        loader()
 
 
 class Act_W(QWidget):
     def __init__(self):
         super(Act_W, self).__init__()
+        self.create_form()
+
+    def create_form(self): # Idem à la connexion
         self.show()
-        self.setWindowTitle("test")
+        form = QVBoxLayout()
+        self.setWindowIcon(QtGui.QIcon('icon/money.png'))
+        self.setWindowTitle("Ajout Act")
+        self.setFixedSize(QSize(250, 300))
+        self.setLayout(form)
+        self.form_pseudo = QLineEdit()
+        self.form_pseudo.setPlaceholderText("Combien de fois fais-tu cette activité")
+        form.addWidget(self.form_pseudo)
+
+        self.form_pwd = QLineEdit()
+        self.form_pwd.setEchoMode(QLineEdit.Password)
+        self.form_pwd.setPlaceholderText("Combien coûte ton activité")
+        form.addWidget(self.form_pwd)
+
+        self.button1 = QPushButton("Annuler")
+        self.button2 = QPushButton("Valider")
+
+        form.addWidget(self.button1)
+        form.addWidget(self.button2)
+        self.setLayout(form)
+
 
 class FirstW(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.MenuBar()
 
     def Create_InsCo(self):
         self.show()
@@ -348,37 +379,47 @@ class FirstW(QMainWindow):
         w.setLayout(a)
         self.setCentralWidget(w)
 
-        toolbar = QToolBar("My main toolbar")
-        toolbar.setIconSize(QSize(16, 16))
-        # self.addToolBar(toolbar)
+        # toolbar = QToolBar("My main toolbar")
+        # toolbar.setIconSize(QSize(16, 16))
+        # # self.addToolBar(toolbar)
+        #
+        # button_action = QAction(QIcon("icon/money.png"), "&Profil", self)
+        # button_action.setStatusTip("This is your button")
+        # button_action.setCheckable(True)
+        # toolbar.addAction(button_action)
+        #
+        # toolbar.addSeparator()
+        #
+        # button_action2 = QAction(QIcon("icon/money.png"), "&A suivre...", self)
+        # button_action2.setStatusTip("This is your button2")
+        # button_action2.setCheckable(True)
+        # toolbar.addAction(button_action2)
+        #
+        # toolbar.addWidget(QLabel("Hello"))
+        # toolbar.addWidget(QCheckBox())
+        #
+        # self.setStatusBar(QStatusBar(self))
 
-        button_action = QAction(QIcon("icon/money.png"), "&Profil", self)
-        button_action.setStatusTip("This is your button")
-        button_action.setCheckable(True)
-        toolbar.addAction(button_action)
+    def MenuBar(self):
+        print("MenuBar")
+        menuBar = self.menuBar()
+        # Creating menus using a QMenu object
+        fileMenu = QMenu("&Profil", self)
+        fileMenu.addMenu(QIcon("icon/money.png"), "&...")
+        fileMenu.addMenu(QIcon("icon/money.png"), "&...")
+        menuBar.addMenu(fileMenu)
+        # Creating menus using a title
+        InsMenu = menuBar.addMenu("&Inscription")
+        CoMenu = menuBar.addMenu("&Connexion")
+        closeMenu = menuBar.addMenu("&Quitter")
 
-        toolbar.addSeparator()
-
-        button_action2 = QAction(QIcon("icon/money.png"), "&A suivre...", self)
-        button_action2.setStatusTip("This is your button2")
-        button_action2.setCheckable(True)
-        toolbar.addAction(button_action2)
-
-        toolbar.addWidget(QLabel("Hello"))
-        toolbar.addWidget(QCheckBox())
-
-        self.setStatusBar(QStatusBar(self))
-
-        menu = self.menuBar()
-
-        file_menu = menu.addMenu("&Raccourci")
-        file_menu.addAction(button_action)
-        file_menu.addSeparator()
-        file_menu.addAction(button_action2)
+    def open_w_Co(self):
+        loader(1)
 
     def toggle_w(self, window):
         self.hide()
         window.show()
+
 
 class App:
     N_User: 0

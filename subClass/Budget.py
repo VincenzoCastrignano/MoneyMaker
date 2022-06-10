@@ -90,7 +90,7 @@ def add_Bud():
     return ja
 
 
-def del_Bud():
+def del_Bud(): # pas fonctionnel
     taille = print_Bud()
     a = int(input("\nQuelle activité veux-tu supprimer ?\n"))
     maxi = len(taille)

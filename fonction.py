@@ -108,19 +108,3 @@ def print_User(data):
         print("Tu es une Femme")
     print("Ton mot de passe est : ", a["user"]["pwd"])
     print("-----------------\n")
-
-
-# {"user": {
-#     "ID": 10,
-#     "fname": "Castrignano",
-#     "name": "Vincenzo",
-#     "age": "19",
-#     "sex": "0",
-#     "ps": "Slayzen",
-#     "pwd": "MDP"}}
-
-
-# ------------------------------------------------- #
-
-
-

@@ -1,12 +1,12 @@
 {
     "user": {
-        "ID": 5,
-        "fname": "Castrignano",
-        "name": "Sylvie",
-        "age": 25,
+        "ID": 0,
+        "fname": "",
+        "name": "",
+        "age": 0,
         "sex": 0,
-        "ps": "te",
-        "pwd": "te",
+        "ps": "",
+        "pwd": "",
         "activities": [],
         "budgets": []
     }

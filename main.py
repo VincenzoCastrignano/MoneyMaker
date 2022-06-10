@@ -8,13 +8,13 @@ import sys
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    loader()
+    # loader()
 
-    app.exec()
+    # app.exec()
     # edit_json("ID", 15)
     # modif_User()
     # add_Act()
-    # add_Bud()
+    add_Bud()
     # print_Bud()
     # del_Bud()
     # print_Act()
@@ -23,9 +23,31 @@ if __name__ == '__main__':
     # create_json({'ID': 6, 'fname': 'Castrignano', 'name': 'Vincenzo', 'age': 18, 'sex': 1, 'ps': 'Slayzen', 'pwd': 'pwd'})
     # start()
 
-# Planning du cours :
 
-# Appliquer sur le schéma sur le code (45min-1h)
-# Faire interface une fois connecté (1h)
-# Appliquer les fonc pour ajouter act et Budget (30-45min)
-# Créer fonction pour vérifier si le Budget est tjrs vérifié (?min)
+
+# {
+#     "user": {
+#         "ID": 0,
+#         "fname": "",
+#         "name": "",
+#         "age": 0,
+#         "sex": 0,
+#         "ps": "",
+#         "pwd": "",
+#         "activities": [
+#             {
+#                 "ID": "725967c8-afa0-462f-89ae-be0f8d1bb4a5",
+#                 "name": "Tennis",
+#                 "price": 500.0,
+#                 "number": "15",
+#                 "frequency": "jour"
+#             }
+#         ],
+#         "budgets": [
+#           {
+#                 "price": 500.0,
+#                 "date": "Juillet"
+#           }
+#         ]
+#     }
+# }

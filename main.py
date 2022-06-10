@@ -8,13 +8,13 @@ import sys
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    # loader()
+    loader()
 
-    # app.exec()
+    app.exec()
     # edit_json("ID", 15)
     # modif_User()
     # add_Act()
-    add_Bud()
+    # add_Bud()
     # print_Bud()
     # del_Bud()
     # print_Act()
